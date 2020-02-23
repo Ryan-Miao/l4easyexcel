@@ -7,14 +7,17 @@ import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.alibaba.excel.annotation.format.NumberFormat;
 import com.alibaba.excel.converters.DefaultConverterLoader;
 import com.alibaba.excel.read.metadata.ReadSheet;
-import demo.vo.ConverterData;
-import demo.vo.DemoData;
-import demo.vo.IndexOrNameData;
+import com.alibaba.fastjson.JSON;
+import demo.vo.*;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import util.TestFileUtil;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
+@Slf4j
 public class TestRead {
 
     /**
@@ -109,6 +112,107 @@ public class TestRead {
                 // .registerConverter(new CustomStringStringConverter())
                 // 读取sheet
                 .sheet().doRead();
+    }
+
+    /**
+     * 多行头
+     *
+     * <p>
+     * 1. 创建excel对应的实体对象 参照{@link DemoData}
+     * <p>
+     * 2. 由于默认异步读取excel，所以需要创建excel一行一行的回调监听器，参照{@link DemoDataListener}
+     * <p>
+     * 3. 设置headRowNumber参数，然后读。 这里要注意headRowNumber如果不指定， 会根据你传入的class的{@link ExcelProperty#value()}里面的表头的数量来决定行数，
+     * 如果不传入class则默认为1.当然你指定了headRowNumber不管是否传入class都是以你传入的为准。
+     */
+    @Test
+    public void complexHeaderRead() {
+        String fileName = TestFileUtil.getPath() + "demo" + File.separator + "demo.xlsx";
+        // 这里 需要指定读用哪个class去读，然后读取第一个sheet
+        EasyExcel.read(fileName, DemoData.class, new DemoDataListener()).sheet()
+                // 这里可以设置1，因为头就是一行。如果多行头，可以设置其他值。不传入也可以，因为默认会根据DemoData 来解析，他没有指定头，也就是默认1行
+                .headRowNumber(1).doRead();
+    }
+
+    /**
+     * 读取表头数据
+     *
+     * <p>
+     * 1. 创建excel对应的实体对象 参照{@link DemoData}
+     * <p>
+     * 2. 由于默认异步读取excel，所以需要创建excel一行一行的回调监听器，参照{@link DemoHeadDataListener}
+     * <p>
+     * 3. 直接读即可
+     */
+    @Test
+    public void headerRead() {
+        String fileName = TestFileUtil.getPath() + "demo" + File.separator + "demo.xlsx";
+        // 这里 需要指定读用哪个class去读，然后读取第一个sheet
+        EasyExcel.read(fileName, DemoData.class, new DemoHeadDataListener()).sheet().doRead();
+    }
+
+    /**
+     * 读取公式和单元格类型
+     *
+     * <p>
+     * 1. 创建excel对应的实体对象 参照{@link DemoData}
+     * <p>
+     * 2. 由于默认异步读取excel，所以需要创建excel一行一行的回调监听器，参照{@link DemoHeadDataListener}
+     * <p>
+     * 3. 直接读即可
+     */
+    @Test
+    public void cellDataRead() {
+        String fileName = TestFileUtil.getPath() + "demo" + File.separator + "cellDataDemo.xlsx";
+        // 这里 需要指定读用哪个class去读，然后读取第一个sheet
+        EasyExcel.read(fileName, CellDataReadDemoData.class, new CellDataDemoHeadDataListener()).sheet().doRead();
+    }
+
+    /**
+     * 数据转换等异常处理
+     *
+     * <p>
+     * 1. 创建excel对应的实体对象 参照{@link ExceptionDemoData}
+     * <p>
+     * 2. 由于默认异步读取excel，所以需要创建excel一行一行的回调监听器，参照{@link DemoExceptionListener}
+     * <p>
+     * 3. 直接读即可
+     */
+    @Test
+    public void exceptionRead() {
+        String fileName = TestFileUtil.getPath() + "demo" + File.separator + "demo.xlsx";
+        // 这里 需要指定读用哪个class去读，然后读取第一个sheet
+        EasyExcel.read(fileName, ExceptionDemoData.class, new DemoExceptionListener()).sheet().doRead();
+    }
+
+    /**
+     * 同步的返回，不推荐使用，如果数据量大会把数据放到内存里面
+     */
+    @Test
+    public void synchronousRead() {
+        String fileName = TestFileUtil.getPath() + "demo" + File.separator + "demo.xlsx";
+        // 这里 需要指定读用哪个class去读，然后读取第一个sheet 同步读取会自动finish
+        List<DemoData> list = EasyExcel.read(fileName).head(DemoData.class).sheet().doReadSync();
+        for (DemoData data : list) {
+            log.info("读取到数据:{}", JSON.toJSONString(data));
+        }
+
+        // 这里 也可以不指定class，返回一个list，然后读取第一个sheet 同步读取会自动finish
+        List<Map<Integer, String>> listMap = EasyExcel.read(fileName).sheet().doReadSync();
+        for (Map<Integer, String> data : listMap) {
+            // 返回每条数据的键值对 表示所在的列 和所在列的值
+            log.info("读取到数据:{}", JSON.toJSONString(data));
+        }
+    }
+
+    /**
+     * 不创建对象的读，不是特别推荐使用，都用String接收对日期的支持不是很好
+     */
+    @Test
+    public void noModleRead() {
+        String fileName = TestFileUtil.getPath() + "demo" + File.separator + "demo.xlsx";
+        // 这里 只要，然后读取第一个sheet 同步读取会自动finish
+        EasyExcel.read(fileName, new NoModleDataListener()).sheet().doRead();
     }
 
 }
