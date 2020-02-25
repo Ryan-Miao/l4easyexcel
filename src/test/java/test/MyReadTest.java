@@ -7,6 +7,7 @@ import org.junit.Test;
 import util.TestFileUtil;
 
 import java.io.File;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,16 +20,29 @@ public class MyReadTest {
     @Test
     public void testReadAll() {
         String fileName = TestFileUtil.getPath() + "test" + File.separator + "test.xlsx";
-          // 我们可以直接全部取出excel的数据， 然后自己自定义处理就好。 针对excel数据不大的时候可以这么干， 大数据也不会复杂了
+        // 我们可以直接全部取出excel的数据， 然后自己自定义处理就好。 针对excel数据不大的时候可以这么干， 大数据也不会复杂了
         // 这里 也可以不指定class，返回一个list，然后读取第一个sheet 同步读取会自动finish
         List<Map<Integer, String>> listMap = EasyExcel.read(fileName).sheet().doReadSync();
-        int lineNum = 0;
+        /**
+         * 行数:  {列数: 变量名称 }
+         */
+        LinkedHashMap<String, LinkedHashMap<String, String>> baseVar = TestConstant.baseVar();
+        int lineNum = 1;
         for (Map<Integer, String> data : listMap) {
             // 返回每条数据的键值对 表示所在的列 和所在列的值
             lineNum = lineNum + 1;
+//            log.info("\n读取到数据:, 第{}行: {}", lineNum, JSON.toJSONString(data));
+            LinkedHashMap<String, String> line = baseVar.get("L-" + lineNum);
+            if (line != null) {
+                for (Map.Entry<Integer, String> entry : data.entrySet()) {
+                    Integer columnId = entry.getKey();
+                    String cellVar = line.get("C-" + columnId);
+                    if (cellVar != null) {
+                        log.info("第{} 行, 第 {} 列, {}={}", lineNum, columnId, cellVar, entry.getValue());
+                    }
+                }
+            }
 
-
-            log.info("\n读取到数据:, 第{}行: {}", lineNum, JSON.toJSONString(data));
 
         }
 

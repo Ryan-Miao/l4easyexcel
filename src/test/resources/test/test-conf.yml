@@ -1,0 +1,55 @@
+
+# 基本信息
+base:
+  L-2:
+    C-1: valligeName
+    C-4: secretary
+  L-3:
+    C-1: valligeAddr
+    C-4: isEmptyShell
+  L-4:
+    C-1: yunongtongAddr
+    C-4: yunongtongMasterName
+  L-5:
+    C-1: bankAddr
+    C-3: bankAccount
+#    人员情况
+  L-8:
+    C-1: censusRegisterNum
+    C-3: censusRegisterType
+    C-4: censusRegisterAge60Percent
+  L-9:
+    C-1: permanentNum
+    C-3: permanentType
+    C-4: permanentAge60Percent
+  L-10:
+    C-1: tenantNum
+    C-3: tenantType
+    C-4: tenantAge60Percent
+  L-11:
+    C-1: workerNum
+    C-3: workerType
+    C-4: workerAge60Percent
+  L-12:
+    C-1: doctorTeacherNum
+    C-3: doctorTeacherType
+    C-4: doctorTeacherAge60Percent
+#   村集体资产情况
+  L-14:
+    C-1: collectiveScale
+    C-4: collectiveProperty
+  L-15:
+    C-1: collectiveRentType
+    C-4: collectiveannualRentalMoney
+  L-16:
+    C-1: collectiveOrganizationType
+    C-4: collectiveAnnualAllotMoney
+  L-17:
+    C-1: collectiveAllotBalanceBank
+# 经济组织
+  L-19:
+    # 1农业园区 规模
+    C-2: economicType1Number
+    C-4: economicType1OperatorNum
+  L-20:
+    C-2: economicType1
