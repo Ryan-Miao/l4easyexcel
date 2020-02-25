@@ -49,7 +49,54 @@ base:
 # 经济组织
   L-19:
     # 1农业园区 规模
-    C-2: economicType1Number
+    C-2: economicType1Num
     C-4: economicType1OperatorNum
   L-20:
-    C-2: economicType1
+    C-2: economicType1EnterpriseNum
+  L-21:
+    # 2龙头企业
+    C-2: economicType2Num
+    C-4: economicType2OperatorNum
+  L-22:
+    C-2: economicType2List
+  L-23:
+    C-2: economicType3Num
+    C-4: economicType3OperatorNum
+  L-24:
+    C-2: economicType3AnnualProduction
+    C-4: economicType3List
+  L-25:
+    # 4大农户
+    C-2: economicType4Num
+    C-4: economicType4OperatorNum
+  L-26:
+    C-2: economicType4EmployeeNum
+    C-4: economicType4SalaryType
+  L-27:
+    C-2: economicType4AverageSalary
+    C-4: economicType4List
+  L-28:
+    # 5供销社
+    C-2: economicType5Num
+    C-4: economicType5OperatorNum
+  L-29:
+    C-2: economicType5FundDemand
+  L-30:
+    # 6农机站
+    C-2: economicType6Num
+    C-4: economicType6OperatorNum
+  L-31:
+    C-2: economicType5FundDemand
+  L-32:
+    # 7 旅游景点 民宿等
+    C-2: economicType7Num
+    C-4: economicType7OperatorNum
+  L-33:
+    C-2: economicType7List
+  L-34:
+    C-1: economicInputUser
+    C-3: economicSurveyUnit
+  L-35:
+    C-3: economicSurveyDate
+  L-36:
+    C-1: economicDataOrigin
