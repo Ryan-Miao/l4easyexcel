@@ -100,3 +100,26 @@ base:
     C-3: economicSurveyDate
   L-36:
     C-1: economicDataOrigin
+
+others:
+  L-3:
+    # 收入 农民人均收入水平(万元/年)
+    C-2: income
+  L2-end:
+    C-10: five
+    C-11: six-key
+    C-12: six-val
+    C-13: feature
+  # 5行以及之后
+  L5-end:
+    C-0: incomeName
+    C-1: incomeScale
+    C-2: incomeRate
+    C-3: incomeProvideUnit
+    C-4: incodeProvideType
+    C-5: expendName
+    C-6: expendScale
+    C-7: expendRate
+    C-8: expendAccountUnit
+    C-9: expednAccountType
+
