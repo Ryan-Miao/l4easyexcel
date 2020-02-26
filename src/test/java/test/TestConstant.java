@@ -12,15 +12,27 @@ import java.util.LinkedHashMap;
 public class TestConstant {
 
     public static LinkedHashMap<String, LinkedHashMap<String, String>> baseVar() {
+        LinkedHashMap ret = loadConf();
+
+        LinkedHashMap<String, LinkedHashMap<String, String>> base =
+                (LinkedHashMap<String, LinkedHashMap<String, String>>) ret.get("base");
+        return base;
+    }
+    public static LinkedHashMap<String, LinkedHashMap<String, String>> othersVar() {
+        LinkedHashMap ret = loadConf();
+
+        LinkedHashMap<String, LinkedHashMap<String, String>> base =
+                (LinkedHashMap<String, LinkedHashMap<String, String>>) ret.get("others");
+        return base;
+    }
+
+    private static LinkedHashMap loadConf() {
         Yaml yaml = new Yaml();
         InputStream resource = TestConstant.class.getClassLoader()
                 .getResourceAsStream("test/test-conf.yml");
         LinkedHashMap ret = yaml.load(resource);
         System.out.println(ret);
-
-        LinkedHashMap<String, LinkedHashMap<String, String>> base =
-                (LinkedHashMap<String, LinkedHashMap<String, String>>) ret.get("base");
-        return base;
+        return ret;
     }
 
 
