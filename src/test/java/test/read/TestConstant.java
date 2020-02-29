@@ -1,4 +1,4 @@
-package test;
+package test.read;
 
 import org.yaml.snakeyaml.Yaml;
 

@@ -1,9 +1,9 @@
-package demo;
+package demo.read;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.fastjson.JSON;
-import demo.vo.CellDataReadDemoData;
+import demo.vo.IndexOrNameData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,21 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 读取头
+ * 模板的读取类
  *
  * @author Jiaju Zhuang
  */
-public class CellDataDemoHeadDataListener extends AnalysisEventListener<CellDataReadDemoData> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CellDataDemoHeadDataListener.class);
+public class IndexOrNameDataListener extends AnalysisEventListener<IndexOrNameData> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(IndexOrNameDataListener.class);
     /**
      * 每隔5条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
      */
     private static final int BATCH_COUNT = 5;
-    List<CellDataReadDemoData> list = new ArrayList<CellDataReadDemoData>();
+    List<IndexOrNameData> list = new ArrayList<IndexOrNameData>();
 
     @Override
-    public void invoke(CellDataReadDemoData data, AnalysisContext context) {
+    public void invoke(IndexOrNameData data, AnalysisContext context) {
         LOGGER.info("解析到一条数据:{}", JSON.toJSONString(data));
+        list.add(data);
         if (list.size() >= BATCH_COUNT) {
             saveData();
             list.clear();

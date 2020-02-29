@@ -1,11 +1,6 @@
-package test;
+package test.read;
 
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.ExcelReader;
-import demo.DemoDataListener;
-import demo.IndexOrNameDataListener;
-import demo.vo.DemoData;
-import demo.vo.IndexOrNameData;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import util.TestFileUtil;

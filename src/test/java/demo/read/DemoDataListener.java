@@ -1,8 +1,9 @@
-package test;
+package demo.read;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.fastjson.JSON;
+import demo.vo.DemoData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,16 +16,16 @@ import java.util.List;
  * @author Jiaju Zhuang
  */
 // 有个很重要的点 DemoDataListener 不能被spring管理，要每次读取excel都要new,然后里面用到spring可以构造方法传进去
-public class MajorEconomicListener extends AnalysisEventListener<MajorEconomic> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MajorEconomicListener.class);
+public class DemoDataListener extends AnalysisEventListener<DemoData> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DemoDataListener.class);
     /**
      * 每隔5条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
      */
     private static final int BATCH_COUNT = 5;
-    List<MajorEconomic> list = new ArrayList<MajorEconomic>();
+    List<DemoData> list = new ArrayList<DemoData>();
 
 
-    public MajorEconomicListener() {
+    public DemoDataListener() {
 
     }
 
@@ -35,7 +36,7 @@ public class MajorEconomicListener extends AnalysisEventListener<MajorEconomic> 
      * @param context
      */
     @Override
-    public void invoke(MajorEconomic data, AnalysisContext context) {
+    public void invoke(DemoData data, AnalysisContext context) {
         LOGGER.info("解析到一条数据:{}", JSON.toJSONString(data));
         list.add(data);
         // 达到BATCH_COUNT了，需要去存储一次数据库，防止数据几万条数据在内存，容易OOM
